@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>workshop.vadstein.dev</title>
+<style>
+  @font-face {
+    font-family: "Courier Prime";
+    src: local("Courier New");
+  }
+
+  :root {
+    color-scheme: dark;
+  }
+
+  * { box-sizing: border-box; }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background: #0a0a0a;
+    color: #f2f2f2;
+    font-family: "Courier New", "Courier Prime", ui-monospace, monospace;
+    font-size: 16px;
+    line-height: 1.6;
+    padding: 4rem 1.5rem;
+  }
+
+  main {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  h1 {
+    font-size: 1.1rem;
+    font-weight: normal;
+    margin: 0 0 0.25rem 0;
+  }
+
+  .prompt {
+    color: #6a6a6a;
+  }
+
+  .subtitle {
+    color: #8a8a8a;
+    margin: 0 0 2.5rem 0;
+  }
+
+  ul.listing {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  ul.listing li {
+    margin: 0 0 0.9rem 0;
+    display: flex;
+    gap: 0.75rem;
+  }
+
+  ul.listing li .marker {
+    color: #6a6a6a;
+    flex: 0 0 auto;
+  }
+
+  ul.listing a {
+    color: #f2f2f2;
+    text-decoration: none;
+    border-bottom: 1px dashed #4a4a4a;
+  }
+
+  ul.listing a:hover {
+    color: #ffffff;
+    border-bottom-color: #f2f2f2;
+  }
+
+  ul.listing .desc {
+    color: #8a8a8a;
+  }
+
+  .empty {
+    color: #6a6a6a;
+  }
+
+  footer {
+    margin-top: 3rem;
+    color: #4a4a4a;
+    font-size: 0.85rem;
+  }
+
+  .caret {
+    display: inline-block;
+    width: 0.6em;
+    background: #f2f2f2;
+    animation: blink 1s steps(1) infinite;
+    margin-left: 2px;
+  }
+
+  @keyframes blink {
+    0%, 50% { opacity: 1; }
+    50.01%, 100% { opacity: 0; }
+  }
+</style>
+</head>
+<body>
+<main>
+  <h1><span class="prompt">$</span> ls ~/workshop</h1>
+  <p class="subtitle">a playground for test pages and small projects<span class="caret">&nbsp;</span></p>
+
+  <ul class="listing" id="listing">
+    <li class="empty">-- nothing here yet --</li>
+  </ul>
+
+  <footer>workshop.vadstein.dev</footer>
+</main>
+
+<script>
+  // Add entries here as projects land, e.g.:
+  // { href: "/foo/", name: "foo", desc: "a thing" }
+  const entries = [];
+
+  if (entries.length) {
+    document.getElementById("listing").innerHTML = entries.map(e =>
+      `<li><span class="marker">-</span><a href="${e.href}">${e.name}</a><span class="desc"> — ${e.desc}</span></li>`
+    ).join("");
+  }
+</script>
+</body>
+</html>
