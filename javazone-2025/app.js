@@ -24,12 +24,11 @@
     filterPanelOpen: false,
     filters: {
       query: "",
-      day: "all",
+      day: null,
       formats: new Set(),
       rooms: new Set(),
       keywords: new Set(),
       languages: new Set(),
-      levels: new Set(),
     },
   };
 
@@ -186,7 +185,16 @@
   function applySessions(json) {
     state.sessions = extractSessions(json).map(normalizeSession);
     state.loadError = null;
+    ensureDayFilter();
     render();
+  }
+
+  function ensureDayFilter() {
+    var days = getDays();
+    if (!days.length) return;
+    if (!state.filters.day || days.indexOf(state.filters.day) === -1) {
+      state.filters.day = days[0];
+    }
   }
 
   function setStatus(text) {
@@ -202,12 +210,11 @@
   }
 
   function getFacets() {
-    var facets = { formats: new Set(), rooms: new Set(), keywords: new Set(), languages: new Set(), levels: new Set() };
+    var facets = { formats: new Set(), rooms: new Set(), keywords: new Set(), languages: new Set() };
     state.sessions.forEach(function (s) {
       if (s.format) facets.formats.add(s.format);
       if (s.room) facets.rooms.add(s.room);
       if (s.language) facets.languages.add(s.language);
-      if (s.level) facets.levels.add(s.level);
       s.keywords.forEach(function (k) { facets.keywords.add(k); });
     });
     return facets;
@@ -224,11 +231,10 @@
     var favoritesOnly = state.view === "my-schedule";
 
     if (favoritesOnly && !state.favorites.has(s.id)) return false;
-    if (f.day !== "all" && s.dayKey !== f.day) return false;
+    if (f.day && s.dayKey !== f.day) return false;
     if (f.formats.size && !f.formats.has(s.format)) return false;
     if (f.rooms.size && !f.rooms.has(s.room)) return false;
     if (f.languages.size && !f.languages.has(s.language)) return false;
-    if (f.levels.size && !f.levels.has(s.level)) return false;
     if (f.keywords.size) {
       var hasKeyword = s.keywords.some(function (k) { return f.keywords.has(k); });
       if (!hasKeyword) return false;
@@ -245,7 +251,7 @@
 
   function activeFilterCount() {
     var f = state.filters;
-    return f.formats.size + f.rooms.size + f.keywords.size + f.languages.size + f.levels.size + (f.day !== "all" ? 0 : 0);
+    return f.formats.size + f.rooms.size + f.keywords.size + f.languages.size;
   }
 
   function computeConflicts() {
@@ -293,7 +299,7 @@
       return;
     }
     els.dayTabs.hidden = false;
-    var buttons = ['<button class="day-tab' + (state.filters.day === "all" ? " active" : "") + '" data-day="all" type="button">All days</button>'];
+    var buttons = [];
     days.forEach(function (d) {
       buttons.push(
         '<button class="day-tab' + (state.filters.day === d ? " active" : "") + '" data-day="' + escapeHtml(d) + '" type="button">' +
@@ -330,7 +336,6 @@
     var facets = getFacets();
     var html = "";
     html += renderFilterGroup("Format", "formats", Array.from(facets.formats));
-    html += renderFilterGroup("Level", "levels", Array.from(facets.levels));
     html += renderFilterGroup("Language", "languages", Array.from(facets.languages));
     html += renderFilterGroup("Room", "rooms", Array.from(facets.rooms));
     html += renderFilterGroup("Topic", "keywords", Array.from(facets.keywords));
@@ -418,9 +423,6 @@
 
     var html = banner;
     dayOrder.forEach(function (dKey) {
-      if (state.filters.day === "all" && dayOrder.length > 1) {
-        html += '<h2 class="day-heading">' + escapeHtml(formatDayLabel(dKey)) + "</h2>";
-      }
       var slots = groupedByDay[dKey];
       Object.keys(slots).forEach(function (timeLabel) {
         html += '<h3 class="time-heading">' + escapeHtml(timeLabel) + "</h3>";
@@ -462,7 +464,6 @@
       state.filters.rooms.clear();
       state.filters.keywords.clear();
       state.filters.languages.clear();
-      state.filters.levels.clear();
       render();
       return;
     }
