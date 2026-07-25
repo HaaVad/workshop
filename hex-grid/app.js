@@ -185,7 +185,12 @@
   // --- Pointer wiring ---
 
   function hexFromEvent(e) {
-    const el = e.target.closest ? e.target.closest(".hex") : null;
+    // Touch pointers implicitly capture to the element under the initial
+    // touchstart, so e.target stays pinned to that hex during pointermove
+    // even as the finger slides elsewhere. Look up the real element under
+    // the current point instead so the focus follows the finger.
+    const atPoint = document.elementFromPoint(e.clientX, e.clientY);
+    const el = atPoint && atPoint.closest ? atPoint.closest(".hex") : null;
     if (!el) return null;
     return { q: Number(el.dataset.q), r: Number(el.dataset.r) };
   }
