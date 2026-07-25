@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#000000">
+<title>hex grid</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="crt"></div>
+<svg id="grid" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="glow" x="-75%" y="-75%" width="250%" height="250%">
+      <feGaussianBlur stdDeviation="2.4" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <g id="hexes"></g>
+</svg>
+<script src="app.js"></script>
+</body>
+</html>

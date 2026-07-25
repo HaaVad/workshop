@@ -1,0 +1,80 @@
+:root {
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  background: #000;
+  overflow: hidden;
+  overscroll-behavior: none;
+  touch-action: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+#grid {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  display: block;
+}
+
+.hex {
+  fill: rgba(4, 20, 12, 0.55);
+  stroke: #1fff8c;
+  stroke-width: 1.4;
+  opacity: 0.8;
+  filter: url(#glow);
+  transform-box: fill-box;
+  transform-origin: center;
+  cursor: pointer;
+  transition: fill 0.25s ease-out, opacity 0.25s ease-out, stroke 0.25s ease-out;
+  will-change: transform;
+}
+
+.hex.active {
+  fill: rgba(80, 255, 190, 0.35);
+  stroke: #baffe0;
+  opacity: 1;
+  animation: none;
+}
+
+/* subtle ambient flicker so the grid feels alive even when idle */
+.hex {
+  animation: flicker 6s ease-in-out infinite;
+  animation-delay: calc(var(--flicker-delay, 0) * 1s);
+}
+
+@keyframes flicker {
+  0%, 92%, 100% { opacity: 0.8; }
+  95% { opacity: 0.55; }
+  97% { opacity: 0.95; }
+}
+
+/* CRT scanline + vignette overlay for the retro-scifi feel */
+#crt {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 10;
+  background:
+    repeating-linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0) 0px,
+      rgba(0, 0, 0, 0) 2px,
+      rgba(0, 0, 0, 0.18) 3px
+    ),
+    radial-gradient(
+      ellipse at center,
+      rgba(0, 0, 0, 0) 55%,
+      rgba(0, 0, 0, 0.75) 100%
+    );
+  mix-blend-mode: multiply;
+}
