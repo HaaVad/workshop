@@ -1,0 +1,123 @@
+<!doctype html>
+<html lang="nb">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0a0a0a">
+<title>faktura</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="app-header no-print">
+  <div class="brand">
+    <span class="brand-mark">kr</span>
+    <div>
+      <h1>Faktura</h1>
+      <p class="subtitle">lagres kun i denne nettleseren</p>
+    </div>
+  </div>
+  <div class="header-actions">
+    <label class="switch">
+      <input type="checkbox" id="vat-registered" checked>
+      <span>MVA-registrert</span>
+    </label>
+    <button type="button" id="reset-btn" class="btn btn-ghost btn-small">Nullstill</button>
+  </div>
+</header>
+
+<main>
+
+  <details class="card" open>
+    <summary>Fra <span class="summary-hint" id="seller-hint"></span></summary>
+    <div class="field">
+      <label for="seller-name">Firmanavn</label>
+      <input id="seller-name" type="text" placeholder="Ola Nordmann AS" autocomplete="organization">
+    </div>
+    <div class="field">
+      <label for="seller-orgnr">Org.nr</label>
+      <input id="seller-orgnr" type="text" inputmode="numeric" placeholder="123 456 789">
+    </div>
+    <div class="field">
+      <label for="seller-address">Adresse</label>
+      <textarea id="seller-address" rows="2" placeholder="Gateveien 1&#10;0123 Oslo"></textarea>
+    </div>
+    <div class="field">
+      <label for="seller-account">Kontonummer</label>
+      <input id="seller-account" type="text" inputmode="numeric" placeholder="1234 56 78901">
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label for="seller-email">E-post</label>
+        <input id="seller-email" type="email" inputmode="email" placeholder="ola@firma.no">
+      </div>
+      <div class="field">
+        <label for="seller-phone">Telefon</label>
+        <input id="seller-phone" type="tel" inputmode="tel" placeholder="123 45 678">
+      </div>
+    </div>
+  </details>
+
+  <details class="card" open>
+    <summary>Til <span class="summary-hint" id="buyer-hint"></span></summary>
+    <div class="field">
+      <label for="buyer-name">Navn / firma</label>
+      <input id="buyer-name" type="text" placeholder="Kari Nordmann">
+    </div>
+    <div class="field">
+      <label for="buyer-address">Adresse</label>
+      <textarea id="buyer-address" rows="2" placeholder="Gateveien 2&#10;0123 Oslo"></textarea>
+    </div>
+  </details>
+
+  <details class="card" open>
+    <summary>Detaljer</summary>
+    <div class="field-row">
+      <div class="field">
+        <label for="invoice-number">Fakturanr.</label>
+        <input id="invoice-number" type="text" inputmode="numeric" placeholder="1">
+      </div>
+      <div class="field">
+        <label for="invoice-kid">KID</label>
+        <input id="invoice-kid" type="text" inputmode="numeric" placeholder="(valgfritt)">
+      </div>
+    </div>
+    <div class="field-row">
+      <div class="field">
+        <label for="invoice-date">Fakturadato</label>
+        <input id="invoice-date" type="date">
+      </div>
+      <div class="field">
+        <label for="due-date">Forfallsdato</label>
+        <input id="due-date" type="date">
+      </div>
+    </div>
+    <div class="field">
+      <label for="terms">Betalingsbetingelser</label>
+      <input id="terms" type="text" placeholder="14 dager netto">
+    </div>
+  </details>
+
+  <section class="card">
+    <h2>Varer / tjenester</h2>
+    <div id="items"></div>
+    <button type="button" id="add-item" class="btn btn-add no-print">+ Legg til linje</button>
+  </section>
+
+  <section class="card totals" id="totals"></section>
+
+  <p class="disclaimer no-print">Ingenting sendes til en server &mdash; alt lagres lokalt i nettleseren din (localStorage).</p>
+
+</main>
+
+<div class="action-bar no-print">
+  <div class="action-bar-total">
+    <span class="action-bar-label">Totalt</span>
+    <span class="action-bar-amount" id="action-bar-amount">kr 0,00</span>
+  </div>
+  <button type="button" id="print-btn" class="btn btn-primary">Skriv ut / PDF</button>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
