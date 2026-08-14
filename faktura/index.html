@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="nb">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0a0a0a">
+<meta name="description" content="Minimalistisk fakturaverktøy for norske forhold. Alt kjøres og lagres lokalt i nettleseren.">
+<title>Faktura</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="page">
+
+  <header class="toolbar no-print">
+    <div class="toolbar-title">
+      <span class="prompt">$</span> faktura
+    </div>
+    <div class="toolbar-actions">
+      <label class="mva-toggle">
+        <input type="checkbox" id="mva-registered" checked>
+        MVA-registrert
+      </label>
+      <button id="add-row" type="button">+ Legg til linje</button>
+      <button id="print-btn" type="button" class="primary">Skriv ut / Lagre som PDF</button>
+      <button id="reset-btn" type="button" class="danger">Nullstill</button>
+    </div>
+  </header>
+
+  <p class="autosave-note no-print">Utkastet lagres automatisk i denne nettleseren. Ingenting sendes til en server.</p>
+
+  <main class="invoice" id="invoice">
+
+    <section class="invoice-head">
+      <div class="party">
+        <h2>Fra</h2>
+        <input data-field="seller.name" placeholder="Firmanavn">
+        <input data-field="seller.address" placeholder="Adresse">
+        <input data-field="seller.postal" placeholder="Postnr og sted">
+        <input data-field="seller.orgnr" placeholder="Org.nr">
+        <input data-field="seller.account" placeholder="Kontonummer">
+        <input data-field="seller.email" placeholder="E-post" type="email">
+        <input data-field="seller.phone" placeholder="Telefon">
+      </div>
+
+      <div class="party">
+        <h2>Til</h2>
+        <input data-field="buyer.name" placeholder="Navn / firma">
+        <input data-field="buyer.address" placeholder="Adresse">
+        <input data-field="buyer.postal" placeholder="Postnr og sted">
+      </div>
+
+      <div class="meta">
+        <h2>Faktura</h2>
+        <label>Fakturanr
+          <input data-field="meta.invoiceNo" placeholder="1001">
+        </label>
+        <label>Fakturadato
+          <input type="date" data-field="meta.invoiceDate">
+        </label>
+        <label>Forfallsdato
+          <input type="date" data-field="meta.dueDate">
+        </label>
+        <label>KID
+          <input data-field="meta.kid" placeholder="valgfritt">
+        </label>
+      </div>
+    </section>
+
+    <table class="items">
+      <thead>
+        <tr>
+          <th class="col-desc">Beskrivelse</th>
+          <th class="col-qty">Antall</th>
+          <th class="col-price">Pris</th>
+          <th class="col-vat">MVA</th>
+          <th class="col-sum">Sum</th>
+          <th class="col-del no-print"></th>
+        </tr>
+      </thead>
+      <tbody id="items-body"></tbody>
+    </table>
+
+    <section class="totals">
+      <div class="totals-box" id="totals-box"></div>
+    </section>
+
+    <section class="footer-info">
+      <p><strong>Betalingsbetingelser:</strong> <input data-field="meta.terms" placeholder="14 dager netto"></p>
+      <textarea data-field="notes" placeholder="Merknad (valgfritt)"></textarea>
+    </section>
+
+  </main>
+
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
