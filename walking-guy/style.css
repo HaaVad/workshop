@@ -1,0 +1,91 @@
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+.scene {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(
+    to bottom,
+    #1f2b46 0%,
+    #3c4f6e 35%,
+    #a8703f 68%,
+    #7a4a2c 78%,
+    #7a4a2c 100%
+  );
+}
+
+.sun {
+  position: absolute;
+  top: 22%;
+  left: 50%;
+  width: 9rem;
+  height: 9rem;
+  transform: translate(-50%, -50%);
+  border-radius: 50%;
+  background: #e8b04f;
+  box-shadow: 0 0 6rem 2rem rgba(232, 176, 79, 0.35);
+}
+
+.ground {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 22%;
+  background: #4a3320;
+  box-shadow: 0 -0.25rem 0 rgba(0, 0, 0, 0.15) inset;
+}
+
+/* --- character --- */
+
+.walker {
+  --frame-w: 160px;
+  --frame-h: 271px;
+  position: absolute;
+  bottom: 18%;
+  left: -25%;
+  width: var(--frame-w);
+  height: var(--frame-h);
+  opacity: 0;
+  animation: walk-across 16s linear infinite;
+}
+
+.sprite {
+  width: 100%;
+  height: 100%;
+  background-image: url("../assets/walk_cycle_5_7_8_3.png");
+  background-repeat: no-repeat;
+  background-size: calc(var(--frame-w) * 4) var(--frame-h);
+  image-rendering: pixelated;
+  animation: walk-cycle 0.6s steps(4) infinite;
+}
+
+@keyframes walk-cycle {
+  from { background-position-x: 0; }
+  to   { background-position-x: calc(var(--frame-w) * -4); }
+}
+
+@keyframes walk-across {
+  0%   { left: -25%; opacity: 0; transform: scaleX(1); }
+  6%   { opacity: 1; }
+  44%  { left: 100%; opacity: 1; transform: scaleX(1); }
+  46%  { left: 100%; opacity: 0; transform: scaleX(1); }
+  50%  { left: 100%; opacity: 0; transform: scaleX(-1); }
+  56%  { opacity: 1; }
+  94%  { left: -25%; opacity: 1; transform: scaleX(-1); }
+  96%  { left: -25%; opacity: 0; transform: scaleX(-1); }
+  100% { left: -25%; opacity: 0; transform: scaleX(1); }
+}
+
+@media (max-width: 480px) {
+  .walker {
+    --frame-w: 110px;
+    --frame-h: 186px;
+  }
+}
