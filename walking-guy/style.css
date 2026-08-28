@@ -1,0 +1,123 @@
+:root {
+  color-scheme: dark;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #171a20;
+}
+
+.scene {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  background: linear-gradient(to bottom, #1b2130 0%, #2c3345 45%, #4a4130 78%, #6b4f2c 100%);
+}
+
+.sun {
+  position: absolute;
+  top: 14%;
+  left: 68%;
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #f3c669, #d99a2b 70%);
+  box-shadow: 0 0 60px 22px rgba(217, 154, 43, 0.35);
+}
+
+.ground {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 20%;
+  background: linear-gradient(to bottom, #4a3221, #2c1f14);
+  box-shadow: 0 -3px 0 rgba(217, 154, 43, 0.45) inset;
+}
+
+.walker {
+  position: absolute;
+  bottom: 18%;
+  left: -15%;
+  width: 90px;
+  height: 120px;
+  animation: cross 11s linear infinite;
+}
+
+.bob {
+  width: 100%;
+  height: 100%;
+  animation: bob 0.5s ease-in-out infinite;
+}
+
+.character {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.leg,
+.arm {
+  transform-box: view-box;
+}
+
+.leg {
+  transform-origin: 56px 90px;
+  animation: swing-back 0.5s ease-in-out infinite;
+}
+
+.leg.front {
+  animation-name: swing-front;
+}
+
+.arm {
+  transform-origin: 56px 46px;
+}
+
+.arm.back {
+  animation: swing-front 0.5s ease-in-out infinite;
+}
+
+.arm.front {
+  animation: swing-back 0.5s ease-in-out infinite;
+}
+
+@keyframes swing-back {
+  0%, 100% { transform: rotate(24deg); }
+  50% { transform: rotate(-24deg); }
+}
+
+@keyframes swing-front {
+  0%, 100% { transform: rotate(-24deg); }
+  50% { transform: rotate(24deg); }
+}
+
+@keyframes bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+
+/* walk across the scene facing right, fade out, flip, walk back facing left */
+@keyframes cross {
+  0%   { left: -15%;  transform: scaleX(1);  opacity: 0; }
+  4%   { opacity: 1; }
+  46%  { left: 105%;  transform: scaleX(1);  opacity: 1; }
+  50%  { left: 105%;  transform: scaleX(1);  opacity: 0; }
+  50.1%{ left: 105%;  transform: scaleX(-1); opacity: 0; }
+  54%  { opacity: 1; }
+  96%  { left: -15%;  transform: scaleX(-1); opacity: 1; }
+  100% { left: -15%;  transform: scaleX(-1); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .walker, .bob, .leg, .arm {
+    animation: none;
+  }
+}
